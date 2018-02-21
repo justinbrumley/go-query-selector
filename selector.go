@@ -24,6 +24,32 @@ type Query struct {
 	Attributes []Attribute
 }
 
+// Returns Node used to call QuerySelector
+func NewNode(n *html.Node) *Node {
+	return &Node{n}
+}
+
+func (n *Node) String() string {
+	if n.Type == html.TextNode {
+		return strings.Trim(n.Data, " \r\n\t")
+	}
+
+	output := "<" + n.Data + ""
+
+	for _, attr := range n.Attr {
+		output += " " + attr.Key + "=\"" + attr.Val + "\""
+	}
+
+	output += ">"
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		child := &Node{c}
+		output += child.String()
+	}
+
+	return output + "</" + strings.Trim(n.Data, " \n\t\r") + ">"
+}
+
 // Retrives an attribute of the node by name
 func (n *Node) getAttribute(name string) string {
 	for _, attr := range n.Attr {
