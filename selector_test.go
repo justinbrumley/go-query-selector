@@ -8,7 +8,7 @@ import (
 )
 
 func TestQuerySelector(t *testing.T) {
-	file, err := os.Open("./index.html")
+	file, err := os.Open("./test.html")
 	if err != nil {
 		t.Error(err)
 		return
