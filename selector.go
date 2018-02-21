@@ -61,7 +61,7 @@ func (n *Node) getAttribute(name string) string {
 }
 
 // Checks if the node passes the given query
-func (n *Node) passesQuery(query Query) bool {
+func (n *Node) passesQuery(query *Query) bool {
 	if n.Type != html.ElementNode {
 		return false
 	}
@@ -106,7 +106,7 @@ func (n *Node) passesQuery(query Query) bool {
 }
 
 // Searches all children of Node and returns first one that satisfies the query.
-func (n *Node) QuerySelector(query Query) (*Node, error) {
+func (n *Node) QuerySelector(query *Query) (*Node, error) {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		child := &Node{c}
 		if child.passesQuery(query) {
@@ -122,4 +122,25 @@ func (n *Node) QuerySelector(query Query) (*Node, error) {
 	}
 
 	return nil, nil
+}
+
+// Searches all children of Node and returns all nodes satisfying the query.
+func (n *Node) QuerySelectorAll(query *Query) ([]*Node, error) {
+	results := make([]*Node, 0)
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		child := &Node{c}
+		if child.passesQuery(query) {
+			results = append(results, child)
+		}
+
+		nodes, err := child.QuerySelectorAll(query)
+		if err != nil {
+			continue
+		}
+
+		results = append(results, nodes...)
+	}
+
+	return results, nil
 }

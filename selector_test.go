@@ -24,7 +24,7 @@ func TestQuerySelector(t *testing.T) {
 	query := &Query{
 		Id: "test",
 	}
-	testIdNode, err := node.QuerySelector(*query)
+	testIdNode, err := node.QuerySelector(query)
 	if err != nil {
 		t.Error(err)
 		return
@@ -36,7 +36,7 @@ func TestQuerySelector(t *testing.T) {
 	query = &Query{
 		Class: "test-class-2",
 	}
-	classNode, err := node.QuerySelector(*query)
+	classNode, err := node.QuerySelector(query)
 	if err != nil {
 		t.Error(err)
 		return
@@ -48,7 +48,7 @@ func TestQuerySelector(t *testing.T) {
 	query = &Query{
 		Class: "nested-class",
 	}
-	nestedNode, err := node.QuerySelector(*query)
+	nestedNode, err := node.QuerySelector(query)
 	if err != nil {
 		t.Error(err)
 		return
@@ -65,7 +65,7 @@ func TestQuerySelector(t *testing.T) {
 			},
 		},
 	}
-	attrNode, err := node.QuerySelector(*query)
+	attrNode, err := node.QuerySelector(query)
 	if err != nil {
 		t.Error(err)
 		return
@@ -77,12 +77,24 @@ func TestQuerySelector(t *testing.T) {
 	query = &Query{
 		Tag: "input",
 	}
-	tagNode, err := node.QuerySelector(*query)
+	tagNode, err := node.QuerySelector(query)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
 	fmt.Printf("Found node by Tag \"input\": \n%v\n", tagNode)
+	fmt.Println("-----------------------------------")
+
+	query = &Query{
+		Class: "test-class",
+	}
+	nodes, err := node.QuerySelectorAll(query)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	fmt.Printf("Found all nodes with class \"test-class\": \n%v\n", nodes)
 	fmt.Println("-----------------------------------")
 }
