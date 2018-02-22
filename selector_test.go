@@ -30,8 +30,7 @@ func TestQuerySelector(t *testing.T) {
 		return
 	}
 
-	fmt.Printf("Found node by id: \n%v\n", testIdNode)
-	fmt.Println("-----------------------------------")
+	fmt.Printf("Found node by id: \n%v\n\n", testIdNode)
 
 	query = &Query{
 		Class: "test-class-2",
@@ -42,8 +41,8 @@ func TestQuerySelector(t *testing.T) {
 		return
 	}
 
-	fmt.Printf("Found node by class: \n%v\n", classNode)
-	fmt.Println("-----------------------------------")
+	fmt.Printf("Found node by class: \n%v\n\n", classNode)
+	fmt.Printf("Inner Content: \n%v\n\n", classNode.Inner())
 
 	query = &Query{
 		Class: "nested-class",
@@ -54,8 +53,7 @@ func TestQuerySelector(t *testing.T) {
 		return
 	}
 
-	fmt.Printf("Found nested node by class: \n%v\n", nestedNode)
-	fmt.Println("-----------------------------------")
+	fmt.Printf("Found nested node by class: \n%v\n\n", nestedNode)
 
 	query = &Query{
 		Attributes: []Attribute{
@@ -71,8 +69,7 @@ func TestQuerySelector(t *testing.T) {
 		return
 	}
 
-	fmt.Printf("Found node by attribute [type=\"checkbox\"]: \n%v\n", attrNode)
-	fmt.Println("-----------------------------------")
+	fmt.Printf("Found node by attribute [type=\"checkbox\"]: \n%v\n\n", attrNode)
 
 	query = &Query{
 		Tag: "input",
@@ -83,8 +80,7 @@ func TestQuerySelector(t *testing.T) {
 		return
 	}
 
-	fmt.Printf("Found node by Tag \"input\": \n%v\n", tagNode)
-	fmt.Println("-----------------------------------")
+	fmt.Printf("Found node by Tag \"input\": \n%v\n\n", tagNode)
 
 	query = &Query{
 		Class: "test-class",
@@ -95,6 +91,5 @@ func TestQuerySelector(t *testing.T) {
 		return
 	}
 
-	fmt.Printf("Found all nodes with class \"test-class\": \n%v\n", nodes)
-	fmt.Println("-----------------------------------")
+	fmt.Printf("Found all nodes with class \"test-class\": \n%v\n\n", nodes)
 }

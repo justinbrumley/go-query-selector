@@ -29,25 +29,29 @@ func NewNode(n *html.Node) *Node {
 	return &Node{n}
 }
 
-func (n *Node) String() string {
+// Returns string representation of the Node
+func (n *Node) String() (output string) {
 	if n.Type == html.TextNode {
 		return strings.Trim(n.Data, " \r\n\t")
 	}
 
-	output := "<" + n.Data + ""
+	output = "<" + n.Data + ""
 
 	for _, attr := range n.Attr {
 		output += " " + attr.Key + "=\"" + attr.Val + "\""
 	}
 
-	output += ">"
+	return output + ">" + n.Inner() + "</" + strings.Trim(n.Data, " \n\t\r") + ">"
+}
 
+// Returns string representation of the inner content of the Node
+func (n *Node) Inner() (output string) {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		child := &Node{c}
 		output += child.String()
 	}
 
-	return output + "</" + strings.Trim(n.Data, " \n\t\r") + ">"
+	return output
 }
 
 // Retrives an attribute of the node by name
