@@ -44,7 +44,7 @@ func (n *Node) String() (output string) {
 	return output + ">" + n.Inner() + "</" + strings.Trim(n.Data, " \n\t\r") + ">"
 }
 
-// Returns string representation of the inner content of the Node
+// Returns string representation of the inner content of the Node.
 func (n *Node) Inner() (output string) {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		child := &Node{c}
@@ -54,7 +54,21 @@ func (n *Node) Inner() (output string) {
 	return output
 }
 
-// Retrives an attribute of the node by name
+// Returns the text contents of the Node. Separate HTML tags will have content separated by newline.
+func (n *Node) Text() (output string) {
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		if c.Type == html.TextNode {
+			output += strings.Trim(c.Data, " \r\n\t") + "\n"
+		} else {
+			child := &Node{c}
+			output += child.Text()
+		}
+	}
+
+	return strings.Trim(output, " \r\n\t")
+}
+
+// Retrives an attribute of the node by name.
 func (n *Node) getAttribute(name string) string {
 	for _, attr := range n.Attr {
 		if attr.Key == name {
@@ -64,7 +78,7 @@ func (n *Node) getAttribute(name string) string {
 	return ""
 }
 
-// Checks if the node passes the given query
+// Checks if the node passes the given query.
 func (n *Node) passesQuery(query *Query) bool {
 	if n.Type != html.ElementNode {
 		return false

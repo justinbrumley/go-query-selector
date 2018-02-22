@@ -43,6 +43,7 @@ func TestQuerySelector(t *testing.T) {
 
 	fmt.Printf("Found node by class: \n%v\n\n", classNode)
 	fmt.Printf("Inner Content: \n%v\n\n", classNode.Inner())
+	fmt.Printf("Text Content: \n%v\n\n", classNode.Text())
 
 	query = &Query{
 		Class: "nested-class",
